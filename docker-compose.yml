@@ -1,0 +1,42 @@
+services:
+  backend:
+    build: ./backend
+    container_name: django_app
+    command: python app/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8001:8000"
+    # env_file:
+    #   - .env
+
+#   frontend:
+#     build:
+#       context: ./frontend
+#       dockerfile: Dockerfile.dev
+#     container_name: react_app
+#     volumes:
+#       - ./frontend:/app
+#       - /app/node_modules
+#     ports:
+#       - "5173:5173"
+#     working_dir: /app
+#     command: npm run dev
+#     environment:
+#       - VITE_API_URL=http://127.0.0.1:8001
+
+#   db:
+#     image: mariadb:10.4
+#     container_name: mariadb
+#     environment:
+#       MYSQL_ROOT_PASSWORD: root
+#       MYSQL_DATABASE: notarios
+#       MYSQL_USER: user
+#       MYSQL_PASSWORD: password
+#     volumes:
+#       - mariadb_data:/var/lib/mysql
+#     ports:
+#       - "3306:3306"
+
+# volumes:
+#   mariadb_data:
