@@ -14,6 +14,9 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
+      devOptions: {
+        enabled: true
+      },
       manifest: {
         name: 'Signatium',
         short_name: 'Notaría',
@@ -21,15 +24,15 @@ export default defineConfig({
         icons: [
           {
             src: '/icons/signatium.png',
-            sizes: "512x512",
-            type: "image/png",
-            purpose: "any maskable",
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any maskable',
           },
         ],
-        start_url: "/",
-        display: "standalone",
-        background_color: "#ffffff",
-        theme_color: "#000000",
+        start_url: '/',
+        display: 'standalone',
+        background_color: '#ffffff',
+        theme_color: '#000000',
       },
     }),
   ],
