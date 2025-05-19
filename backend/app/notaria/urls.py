@@ -11,5 +11,6 @@ router = routers.DefaultRouter()
 
 router.register('usuarios', views.UsuariosViewSet, basename='usuarios')
 router.register('permisos', views.PermisosUsuariosViewSet, basename='permisos')
+router.register('kardex', views.KardexViewSet, basename='kardex')
 
 urlpatterns = router.urls

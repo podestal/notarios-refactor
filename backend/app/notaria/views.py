@@ -1,6 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from . import models
 from . import serializers
+from . import pagination
 
 '''
 ViewSets for the Notaria app.
@@ -24,3 +25,12 @@ class PermisosUsuariosViewSet(ModelViewSet):
     """
     queryset = models.PermisosUsuarios.objects.all()
     serializer_class = serializers.PermisosUsuariosSerializer
+
+
+class KardexViewSet(ModelViewSet):
+    """
+    ViewSet for the Kardex model.
+    """
+    queryset = models.Kardex.objects.order_by('-fechaingreso')
+    serializer_class = serializers.KardexSerializer
+    pagination_class = pagination.KardexPagination

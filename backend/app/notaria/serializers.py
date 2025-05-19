@@ -25,3 +25,12 @@ class PermisosUsuariosSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.PermisosUsuarios
         fields = '__all__'
+
+
+class KardexSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the Kardex model.
+    """
+    class Meta:
+        model = models.Kardex
+        fields = ['kardex', 'contrato', 'fechaingreso']
