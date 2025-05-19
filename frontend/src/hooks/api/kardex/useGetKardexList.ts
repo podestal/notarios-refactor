@@ -8,6 +8,8 @@ interface Props {
 const useGetKardexList = ({ page }: Props): UseQueryResult<Kardex[], Error> => {
     const kardexService = getKardexService({ })
     const params = { page }
+    console.log('queryying', params);
+    
     return useQuery({
         queryKey: ["kardex list"],
         queryFn: () => kardexService.get('', params),

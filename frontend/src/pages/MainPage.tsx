@@ -13,6 +13,7 @@ const MainPage = () => {
 
   return (
     <>
+    {/* <h1 className='text-4xl'>Lista de Kardex</h1> */}
     <>{console.log('kardex list', kardexList)}</>
     <Header />
     </>

@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainPage from "../pages/MainPage";
 import Login from "../components/auth/Login";
-import PrivateRoutes from "../components/auth/PrivateRoutes";
+// import PrivateRoutes from "../components/auth/PrivateRoutes";
 
 const routes = createBrowserRouter([
     {
@@ -10,9 +10,14 @@ const routes = createBrowserRouter([
     },
     {
         path: "/",
-        element: <PrivateRoutes><MainPage /></PrivateRoutes>,
+        element: <MainPage />,
         errorElement: <div>Error</div>,
-    }
+    },
+    // {
+    //     path: "/",
+    //     element: <PrivateRoutes><MainPage /></PrivateRoutes>,
+    //     errorElement: <div>Error</div>,
+    // }
 ]);
 
 export default routes
