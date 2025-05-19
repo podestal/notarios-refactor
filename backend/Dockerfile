@@ -42,3 +42,4 @@ EXPOSE 8000
 
 # Default command (can be overridden in docker-compose)
 CMD ["python", "app/manage.py", "runserver", "0.0.0.0:8000"]
+# CMD ["run.sh"]

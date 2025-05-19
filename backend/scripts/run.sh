@@ -10,7 +10,7 @@ python manage.py wait_for_db
 # python manage.py collectstatic --noinput
 
 # Apply any pending database migrations.
-python manage.py migrate
+# python manage.py migrate
 
 # Start the uWSGI server with 4 worker processes, using the WSGI module.
 # --socket :9000: Binds to port 9000.
@@ -22,11 +22,14 @@ python manage.py migrate
 # daphne -b 0.0.0.0 -p 8000 amauta.asgi:application
 # gunicorn amauta.wsgi:application --bind 0.0.0.0:8000 --timeout=5 --threads=10
 
-if [ "$ENVIRONMENT" = "development" ]; then
-    echo "Starting server with Daphne for development..."
-    exec daphne -b 0.0.0.0 -p 8000 amauta.asgi:application
-else
-    echo "Starting server with Gunicorn for production..."
-    exec gunicorn amauta.wsgi:application --bind 0.0.0.0:8000 --timeout=5 --threads=10
-fi
+echo "Starting server with Daphne for development..."
+exec daphne -b 0.0.0.0 -p 8000 amauta.asgi:application
+
+# if [ "$ENVIRONMENT" = "development" ]; then
+#     echo "Starting server with Daphne for development..."
+#     exec daphne -b 0.0.0.0 -p 8000 amauta.asgi:application
+# else
+#     echo "Starting server with Gunicorn for production..."
+#     exec gunicorn amauta.wsgi:application --bind 0.0.0.0:8000 --timeout=5 --threads=10
+# fi
 

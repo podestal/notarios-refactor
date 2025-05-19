@@ -1,12 +1,22 @@
 services:
+    # build: .
+    # restart: always
+    # volumes:
+    #   - ./app:/app
+    #   - ./mediafiles:/vol/media
+    # ports:
+    #   - "8000:8000"
   backend:
     build: ./backend
-    container_name: django_app
-    command: python app/manage.py runserver 0.0.0.0:8000
+    restart: always
+    # container_name: django_app
+    # command: python app/manage.py runserver 0.0.0.0:8000
     volumes:
       - ./backend:/app
     ports:
       - "8001:8000"
+    depends_on:
+      - db
     # env_file:
     #   - .env
 
