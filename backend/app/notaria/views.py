@@ -1,3 +1,18 @@
-from django.shortcuts import render
+from rest_framework.viewsets import ModelViewSet
+from . import models
+from . import serializers
 
-# Create your views here.
+'''
+ViewSets for the Notaria app.
+These viewsets define the views for the Notaria app.
+They are used to handle HTTP requests and responses.
+They are also used to define the URL patterns for the Notaria app.
+'''
+
+
+class UsuariosViewSet(ModelViewSet):
+    """
+    ViewSet for the Usuarios model.
+    """
+    queryset = models.Usuarios.objects.all()
+    serializer_class = serializers.UsuariosSerializer
