@@ -16,3 +16,12 @@ class UsuariosSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Usuarios
         fields = '__all__'
+
+
+class PermisosUsuariosSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the PermisosUsuarios model.
+    """
+    class Meta:
+        model = models.PermisosUsuarios
+        fields = '__all__'

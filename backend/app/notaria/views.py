@@ -16,3 +16,11 @@ class UsuariosViewSet(ModelViewSet):
     """
     queryset = models.Usuarios.objects.all()
     serializer_class = serializers.UsuariosSerializer
+
+
+class PermisosUsuariosViewSet(ModelViewSet):
+    """
+    ViewSet for the PermisosUsuarios model.
+    """
+    queryset = models.PermisosUsuarios.objects.all()
+    serializer_class = serializers.PermisosUsuariosSerializer

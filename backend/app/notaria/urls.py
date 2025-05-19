@@ -10,5 +10,6 @@ It includes the URL patterns for the Notaria app's views.
 router = routers.DefaultRouter()
 
 router.register('usuarios', views.UsuariosViewSet, basename='usuarios')
+router.register('permisos', views.PermisosUsuariosViewSet, basename='permisos')
 
 urlpatterns = router.urls
