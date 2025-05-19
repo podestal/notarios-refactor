@@ -31,6 +31,8 @@ class KardexSerializer(serializers.ModelSerializer):
     """
     Serializer for the Kardex model.
     """
+
+    #  Actos	Contratantes	Fec. Escrit.	Nº Instr.	Minuta	Folio Ini.	Folio Fin	Registro	Tomo	Usuario	Escaneo
     class Meta:
         model = models.Kardex
-        fields = ['idkardex', 'kardex', 'contrato', 'fechaingreso']
+        fields = ['idkardex', 'kardex', 'contrato', 'fechaingreso', 'idusuario']

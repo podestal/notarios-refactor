@@ -1,11 +1,11 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query"
-import getKardexService, { Kardex } from "../../../services/api/kardexService"
+import getKardexService, { KardexPage } from "../../../services/api/kardexService"
 
 interface Props {
     page: string
 }
 
-const useGetKardexList = ({ page }: Props): UseQueryResult<Kardex[], Error> => {
+const useGetKardexList = ({ page }: Props): UseQueryResult<KardexPage, Error> => {
     const kardexService = getKardexService({ })
     const params = { page }
     console.log('queryying', params);

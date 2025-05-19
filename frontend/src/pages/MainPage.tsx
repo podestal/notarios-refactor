@@ -1,21 +1,12 @@
-import useGetKardexList from '../hooks/api/kardex/useGetKardexList'
 import Header from '../router/Header'
+import KardexMain from '../components/api/kardex/KardexMain'
 
 const MainPage = () => {
 
-  const { data: kardexList, isLoading, isError, error, isSuccess } = useGetKardexList({ page: '1' })
-
-  if (isLoading) return <p>Un momento</p>
-
-  if (isError) return <p>Error: {error.message}</p>
-
-  if (isSuccess)
-
   return (
     <>
-    {/* <h1 className='text-4xl'>Lista de Kardex</h1> */}
-    <>{console.log('kardex list', kardexList)}</>
     <Header />
+    <KardexMain />
     </>
   )
 }

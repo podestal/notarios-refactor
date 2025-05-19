@@ -5,6 +5,14 @@ export interface Kardex {
     kardex: string;
     contrato: string;
     fechaingreso: string;
+    idusuario: number;
+}
+
+export interface KardexPage {
+    count: number;
+    next: string | null;
+    previous: string | null;
+    results: Kardex[];
 }
 
 interface Props {
@@ -13,7 +21,7 @@ interface Props {
 
 const getKardexService =({ id }: Props) => {
     let url = id ? `/kardex/${id}/` : '/kardex/'
-    return new APIClient<Kardex, Kardex>(url)
+    return new APIClient<KardexPage, KardexPage>(url)
 }
 
 export default getKardexService
