@@ -5,6 +5,13 @@ export interface Kardex {
     kardex: string;
     contrato: string;
     fechaingreso: string;
+    fechaescritura: string;
+    numescritura: string;
+    numminuta: string;
+    folioini: string;
+    foliofin: string;
+    numinstrmento: string;
+    txa_minuta: string;
     idusuario: number;
 }
 

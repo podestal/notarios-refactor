@@ -65,4 +65,5 @@ class KardexSerializer(serializers.ModelSerializer):
             'foliofin',
             'numinstrmento',
             'txa_minuta',
+            'idusuario'
         ]
