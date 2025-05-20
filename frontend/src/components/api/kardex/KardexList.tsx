@@ -1,4 +1,5 @@
 import useGetKardexList from "../../../hooks/api/kardex/useGetKardexList"
+import KardexTable from "./KardexTable"
 
 const KardexList = () => {
 
@@ -12,13 +13,9 @@ const KardexList = () => {
 
   return (
     <div>
-        {kardexPage.results.map( singleKardex => (
-            <div key={singleKardex.idkardex}>
-                <h2>{singleKardex.kardex}</h2>
-                <p>{singleKardex.fechaingreso}</p>
-                <p>{singleKardex.contrato}</p>
-            </div>
-        ))}
+        <KardexTable 
+            kardexList={kardexPage.results}
+        />
     </div>
   )
 }

@@ -31,8 +31,27 @@ class KardexSerializer(serializers.ModelSerializer):
     """
     Serializer for the Kardex model.
     """
-
-    #  Actos	Contratantes	Fec. Escrit.	Nº Instr.	Minuta	Folio Ini.	Folio Fin	Registro	Tomo	Usuario	Escaneo
+# SELECT
+    # kardex.kardex AS kardex,
+    # tipokar.nomtipkar AS nom_tipkar,
+    # kardex.fechaingreso AS fec_ingreso,
+    # kardex.contrato AS des_acto,
+    # kardex.referencia AS referencia,
+    # kardex.fechaescritura AS fec_escritura,
+    # kardex.numescritura AS num_escritura,
+    # kardex.numminuta,
+    # kardex.numinstrmento as registro,
+    # kardex.folioini,
+    # kardex.foliofin,
+    # kardex.txa_minuta as tomo,
+    # kardex.fechaconclusion AS fec_conclusion,
+    # kardex.idkardex,
+    # kardex.idtipkar,
+    # SUBSTRING_INDEX(kardex.kardex,'-',1) AS temp_kardex,
+    # kardex.responsable_new as usuario
+    # FROM
+    # kardex
+    # Inner Join tipokar ON kardex.idtipkar = tipokar.idtipkar";
     class Meta:
         model = models.Kardex
-        fields = ['idkardex', 'kardex', 'contrato', 'fechaingreso', 'idusuario']
+        fields = ['kardex', 'fechaingreso', 'contrato']
