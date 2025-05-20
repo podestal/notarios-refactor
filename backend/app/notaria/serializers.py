@@ -54,4 +54,15 @@ class KardexSerializer(serializers.ModelSerializer):
     # Inner Join tipokar ON kardex.idtipkar = tipokar.idtipkar";
     class Meta:
         model = models.Kardex
-        fields = ['kardex', 'fechaingreso', 'contrato']
+        fields = [
+            'kardex',
+            'fechaingreso',
+            'contrato',
+            'fechaescritura',
+            'numescritura',
+            'numminuta',
+            'folioini',
+            'foliofin',
+            'numinstrmento',
+            'txa_minuta',
+        ]
