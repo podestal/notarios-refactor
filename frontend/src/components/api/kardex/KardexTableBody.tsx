@@ -7,6 +7,7 @@ interface Props {
 const KardexTableBody = ({ kardexList }: Props) => {
   return (
     <div>
+        <>{console.log('kardexList', kardexList)}</>
         {kardexList.map( singleKardex => (
             <div 
                 key={singleKardex.idkardex}

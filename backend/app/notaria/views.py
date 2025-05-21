@@ -31,6 +31,9 @@ class KardexViewSet(ModelViewSet):
     """
     ViewSet for the Kardex model.
     """
-    queryset = models.Kardex.objects.order_by('-fechaingreso')
     serializer_class = serializers.KardexSerializer
     pagination_class = pagination.KardexPagination
+
+    def get_queryset(self):
+        kardex_qs = models.Kardex.objects.order_by('-fechaingreso')
+        return kardex_qs

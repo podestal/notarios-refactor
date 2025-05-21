@@ -31,6 +31,40 @@ class KardexSerializer(serializers.ModelSerializer):
     """
     Serializer for the Kardex model.
     """
+
+    usuario = serializers.SerializerMethodField()
+
+    class Meta:
+        model = models.Kardex
+        fields = [
+            'kardex',
+            'fechaingreso',
+            'contrato',
+            'fechaescritura',
+            'numescritura',
+            'numminuta',
+            'folioini',
+            'foliofin',
+            'numinstrmento',
+            'txa_minuta',
+            'idusuario',
+            'usuario',
+        ]
+
+    def get_usuario(self, obj):
+        """
+        Get the user associated with the Kardex.
+        """
+
+        usuario = models.Usuarios.objects.get(idusuario=obj.idusuario)
+        if usuario:
+            return (
+                f'{usuario.prinom} {usuario.segnom} '
+                f'{usuario.apepat} {usuario.apemat}'
+            )
+        return None
+
+
 # SELECT
     # kardex.kardex AS kardex,
     # tipokar.nomtipkar AS nom_tipkar,
@@ -52,18 +86,3 @@ class KardexSerializer(serializers.ModelSerializer):
     # FROM
     # kardex
     # Inner Join tipokar ON kardex.idtipkar = tipokar.idtipkar";
-    class Meta:
-        model = models.Kardex
-        fields = [
-            'kardex',
-            'fechaingreso',
-            'contrato',
-            'fechaescritura',
-            'numescritura',
-            'numminuta',
-            'folioini',
-            'foliofin',
-            'numinstrmento',
-            'txa_minuta',
-            'idusuario'
-        ]
