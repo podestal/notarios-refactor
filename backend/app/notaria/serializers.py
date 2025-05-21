@@ -56,13 +56,15 @@ class KardexSerializer(serializers.ModelSerializer):
         Get the user associated with the Kardex.
         """
 
-        usuario = models.Usuarios.objects.get(idusuario=obj.idusuario)
-        if usuario:
-            return (
-                f'{usuario.prinom} {usuario.segnom} '
-                f'{usuario.apepat} {usuario.apemat}'
-            )
-        return None
+        try:
+            usuario = models.Usuarios.objects.get(idusuario=obj.idusuario)
+            if usuario:
+                return (
+                    f'{usuario.prinom} {usuario.segnom} '
+                    f'{usuario.apepat} {usuario.apemat}'
+                )
+        except models.Usuarios.DoesNotExist:
+            return ''
 
 
 # SELECT
