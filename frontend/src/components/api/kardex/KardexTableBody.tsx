@@ -11,9 +11,9 @@ const KardexTableBody = ({ kardexList }: Props) => {
         {kardexList.map( singleKardex => (
             <div 
                 key={singleKardex.idkardex}
-                className="grid grid-cols-13 text-xs text-center my-4 gap-2"
+                className="grid grid-cols-13 text-[10px] text-center my-4 gap-2"
             >
-                <h2>{singleKardex.kardex}</h2>
+                <h2 className="text-blue-600 hover:text-blue-400 cursor-pointer">{singleKardex.kardex}</h2>
                 <p>{singleKardex.fechaingreso}</p>
                 <p>{singleKardex.contrato}</p>
                 <p>Contratantes ...</p>

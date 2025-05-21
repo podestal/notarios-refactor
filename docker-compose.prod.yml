@@ -1,0 +1,67 @@
+services:
+  backend:
+    build: ./backend
+    restart: always
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8001:8000"
+    depends_on:
+      - db
+    # env_file:
+    #   - .env
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: react_app
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    working_dir: /app
+    command: npm run dev
+
+  db:
+    image: mariadb:10.5
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+      MARIADB_DATABASE: ${DATABASE_NAME}
+      MARIADB_USER: ${DATABASE_USER}
+      MARIADB_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/www/certbot:/var/www/certbot
+    depends_on:
+      - frontend
+      - backend
+    environment:
+      - ENVIRONMENT=${ENVIRONMENT}
+    entrypoint: >+
+      sh -c 'if [ "$ENVIRONMENT" = "production" ]; then
+              cp /etc/nginx/conf.d/nginx.prod.conf /etc/nginx/nginx.conf;
+             elif [ "$ENVIRONMENT" = "testing" ]; then
+              cp /etc/nginx/conf.d/nginx.test.conf /etc/nginx/nginx.conf;
+             else
+              cp /etc/nginx/conf.d/nginx.dev.conf /etc/nginx/nginx.conf;
+             fi &&
+             nginx -g "daemon off;"'
+
+volumes:
+  db_data:
