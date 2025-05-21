@@ -13,6 +13,7 @@ export interface Kardex {
     numinstrmento: string;
     txa_minuta: string;
     idusuario: number;
+    usuario: string;
 }
 
 export interface KardexPage {

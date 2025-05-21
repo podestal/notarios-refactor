@@ -17,7 +17,7 @@ const headerItems = [
 const KardexTableHeader = () => {
 
   return (
-    <div className="grid grid-cols-13 bg-neutral-500 text-center text-xs h-10 place-items-center text-slate-50 font-semibold">
+    <div className="grid grid-cols-13 bg-neutral-500 text-center text-xs h-10 place-items-center text-slate-50 font-semibold gap-2">
         {headerItems.map((item, index) => (
             <p key={index} className="text-center">
                 {item}
