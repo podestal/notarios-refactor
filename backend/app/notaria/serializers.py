@@ -58,6 +58,7 @@ class KardexSerializer(serializers.ModelSerializer):
             'txa_minuta',
             'idusuario',
             'usuario',
+            'idtipkar',
         ]
 
     def get_usuario(self, obj):

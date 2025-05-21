@@ -35,8 +35,14 @@ class KardexViewSet(ModelViewSet):
     pagination_class = pagination.KardexPagination
 
     def get_queryset(self):
-        kardex_qs = models.Kardex.objects.order_by('-fechaingreso')
-        return kardex_qs
+        idtipkar = self.request.query_params.get('idtipkar')
+        if idtipkar:
+            kardex_qs = models.Kardex.objects.filter(
+                idtipkar=idtipkar
+            ).order_by('-fechaingreso')
+            return kardex_qs
+        else:
+            return []
 
 
 class TipoKarViewSet(ModelViewSet):
