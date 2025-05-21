@@ -37,7 +37,7 @@ const KardexTableFooter = ({ page, setPage }: Props) => {
           <button
             key={singlePage.id}
             onClick={() => setPage(singlePage.id)}
-            className={`mx-1 cursor-pointer rounded-md border border-gray-300 ${singlePage.name === page.toString() ? 'bg-blue-600 text-slate-50 hover:bg-blue-500' : 'bg-white text-gray-700 hover:bg-gray-50'} px-4 py-2 text-sm font-medium  `}
+            className={`mx-1 cursor-pointer rounded-md transition duration-300 border border-gray-300 ${singlePage.name === page.toString() ? 'bg-blue-600 text-slate-50 hover:bg-blue-500' : 'bg-white text-gray-700 hover:bg-gray-50'} px-4 py-2 text-sm font-medium  `}
           >
             {singlePage.name}
           </button>
