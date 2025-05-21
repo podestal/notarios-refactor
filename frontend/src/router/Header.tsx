@@ -9,11 +9,12 @@ import people from '../assets/icons/people.ico'
 import { useState } from 'react'
 import Logout from '../components/auth/Logout'
 import { Tipokardex } from '../services/api/tipokardexService'
+import useBodyRenderStore from '../hooks/store/bodyRenderStore'
 
 interface MenuOptions {
     name: string;
     subOptions?: string[]
-    docType?: string
+    docType?: number
 }
 
 interface MenuItem {
@@ -35,10 +36,12 @@ const Header = ({ kardexTypes }: Props) => {
     const [openDropdown, setOpenDropdown] = useState<number | null>(null);
     const [openSubDropdown, setOpenSubDropdown] = useState<number | null>(null);
 
+    const setBodyRender = useBodyRenderStore((state) => state.setBodyRender)
+
     const menuItems: MenuItem[] = [
       { label: "PROTOCOLARES", options: 
           [
-            ...kardexTypes.map((kardexType) => ({ name: kardexType.nomtipkar, docType: kardexType.tipkar })),
+            ...kardexTypes.map((kardexType) => ({ name: kardexType.nomtipkar, docType: kardexType.idtipkar })),
             { name: "Protestos" }
           ],
       },
@@ -188,6 +191,9 @@ const Header = ({ kardexTypes }: Props) => {
                         className="relative"
                         onMouseEnter={() => option.subOptions && setOpenSubDropdown(idx)}
                         onMouseLeave={() => setOpenSubDropdown(null)}
+                        onClick={() => {
+                          option.docType && setBodyRender(option.docType)
+                          console.log('option.docType', option)}}
                       >
                         <li className="px-4 py-2 hover:bg-sky-500 hover:text-slate-50 cursor-pointer w-full border-b border-neutral-600 flex justify-between">
                           {option.name}

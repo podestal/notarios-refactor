@@ -10,6 +10,7 @@ interface Props {
 }
 
 const KardexTable = ({ kardexList, page, setPage }: Props) => {
+
   return (
     <div>
         <KardexTableHeader />

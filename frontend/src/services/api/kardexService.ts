@@ -14,6 +14,7 @@ export interface Kardex {
     txa_minuta: string;
     idusuario: number;
     usuario: string;
+    idtipkar: number;
 }
 
 export interface KardexPage {
