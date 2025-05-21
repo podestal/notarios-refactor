@@ -27,6 +27,15 @@ class PermisosUsuariosSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class TipoKarSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the TipoKar model.
+    """
+    class Meta:
+        model = models.Tipokar
+        fields = '__all__'
+
+
 class KardexSerializer(serializers.ModelSerializer):
     """
     Serializer for the Kardex model.

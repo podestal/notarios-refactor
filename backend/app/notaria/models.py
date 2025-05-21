@@ -197,3 +197,18 @@ class Kardex(models.Model):
     class Meta:
         managed = False
         db_table = 'kardex'
+
+
+class Tipokar(models.Model):
+    """
+    Model representing the type of Kardex.
+    This table stores the different types of Kardex available in the system.
+    """
+
+    idtipkar = models.IntegerField(primary_key=True)
+    nomtipkar = models.CharField(max_length=50)
+    tipkar = models.CharField(max_length=1)
+
+    class Meta:
+        managed = False
+        db_table = 'tipokar'

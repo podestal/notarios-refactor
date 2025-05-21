@@ -37,3 +37,11 @@ class KardexViewSet(ModelViewSet):
     def get_queryset(self):
         kardex_qs = models.Kardex.objects.order_by('-fechaingreso')
         return kardex_qs
+
+
+class TipoKarViewSet(ModelViewSet):
+    """
+    ViewSet for the TipoKar model.
+    """
+    queryset = models.Tipokar.objects.all()
+    serializer_class = serializers.TipoKarSerializer
