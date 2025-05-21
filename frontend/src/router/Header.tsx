@@ -8,10 +8,12 @@ import house from '../assets/icons/casa.png'
 import people from '../assets/icons/people.ico'
 import { useState } from 'react'
 import Logout from '../components/auth/Logout'
+import { Tipokardex } from '../services/api/tipokardexService'
 
 interface MenuOptions {
     name: string;
     subOptions?: string[]
+    docType?: string
 }
 
 interface MenuItem {
@@ -19,7 +21,11 @@ interface MenuItem {
     options: MenuOptions[]
 }
 
-const Header = () => {
+interface Props {
+  kardexTypes: Tipokardex[]
+}
+
+const Header = ({ kardexTypes }: Props) => {
 
     const currentDate = daysInSpanish[moment().format('LLLL').split(' ')[0].split(',')[0].toLocaleLowerCase()]
     const currentDay = moment().format('DD')
@@ -31,13 +37,11 @@ const Header = () => {
 
     const menuItems: MenuItem[] = [
       { label: "PROTOCOLARES", options: 
-        [   {name: "Escrituras"},
-            {name: "No Contenciosos"},
-            {name: "Transferencias Vehiculares"},
-            {name: "Garantías Mobiliarias"},
-            {name: "Testamentos"},
-            {name: "Protestos"},
-        ]},
+          [
+            ...kardexTypes.map((kardexType) => ({ name: kardexType.nomtipkar, docType: kardexType.tipkar })),
+            { name: "Protestos" }
+          ],
+      },
         { label: "EXTRAPROTOCOLARES", options: 
             [   {name: "Calificacíon de Firmas"},
                 {name: "Cert. Autorización de viaje"},
