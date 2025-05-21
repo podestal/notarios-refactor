@@ -101,6 +101,7 @@ DATABASES = {
         "NAME": 'notarios',
         "USER": 'root',
         "PASSWORD": '12345',
+        "PORT": '3306',
     }
 }
 

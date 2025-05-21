@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainPage from "../pages/MainPage";
 import Login from "../components/auth/Login";
-import KardexMain from "../components/api/kardex/KardexMain";
+// import KardexMain from "../components/api/kardex/KardexMain";
 // import PrivateRoutes from "../components/auth/PrivateRoutes";
 
 // path: "/app",
