@@ -8,7 +8,7 @@ const KardexList = () => {
     const [page, setPage] = useState(1)
     const bodyRender = useBodyRenderStore(s => s.bodyRender)
 
-    const { data: kardexPage, isLoading, isError, error, isSuccess } = useGetKardexList({ page: page.toString() })
+    const { data: kardexPage, isLoading, isError, error, isSuccess } = useGetKardexList({ page: page.toString(), idtipkar:bodyRender })
 
     if (isLoading) return <p>Un momento</p>
   
