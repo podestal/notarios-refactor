@@ -52,7 +52,7 @@ services:
       - frontend
       - backend
     environment:
-      - ENVIRONMENT=development
+      - ENVIRONMENT=${ENVIRONMENT}
     entrypoint: >+
       sh -c 'if [ "$ENVIRONMENT" = "production" ]; then
               cp /etc/nginx/conf.d/nginx.prod.conf /etc/nginx/nginx.conf;
