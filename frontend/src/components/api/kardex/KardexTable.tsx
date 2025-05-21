@@ -1,5 +1,6 @@
 import { Kardex } from "../../../services/api/kardexService"
 import KardexTableBody from "./KardexTableBody"
+import KardexTableFooter from "./KardexTableFooter"
 import KardexTableHeader from "./KardexTableHeader"
 
 interface Props {
@@ -13,6 +14,7 @@ const KardexTable = ({ kardexList }: Props) => {
         <KardexTableBody 
             kardexList={kardexList}
         />
+        <KardexTableFooter />
     </div>
   )
 }
