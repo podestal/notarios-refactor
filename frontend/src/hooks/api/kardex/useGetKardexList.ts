@@ -11,7 +11,7 @@ const useGetKardexList = ({ page }: Props): UseQueryResult<KardexPage, Error> =>
     console.log('queryying', params);
     
     return useQuery({
-        queryKey: ["kardex list"],
+        queryKey: ['kardex list', page],
         queryFn: () => kardexService.get('', params),
         refetchOnWindowFocus: false,
         retry: false,

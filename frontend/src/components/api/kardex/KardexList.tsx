@@ -1,9 +1,12 @@
+import { useState } from "react"
 import useGetKardexList from "../../../hooks/api/kardex/useGetKardexList"
 import KardexTable from "./KardexTable"
 
 const KardexList = () => {
 
-    const { data: kardexPage, isLoading, isError, error, isSuccess } = useGetKardexList({ page: '1' })
+    const [page, setPage] = useState(1)
+
+    const { data: kardexPage, isLoading, isError, error, isSuccess } = useGetKardexList({ page: page.toString() })
 
     if (isLoading) return <p>Un momento</p>
   
@@ -15,6 +18,8 @@ const KardexList = () => {
     <div>
         <KardexTable 
             kardexList={kardexPage.results}
+            page={page}
+            setPage={setPage}
         />
     </div>
   )

@@ -1,6 +1,9 @@
 import { ArrowBigLeft, ArrowBigRight } from 'lucide-react'
 
-
+interface Props {
+  page: number
+  setPage: React.Dispatch<React.SetStateAction<number>>
+}
 
 const pages = [
   { id: 1, name: '1' },
@@ -15,25 +18,38 @@ const pages = [
   { id: 10, name: '10' },
 ]
 
-const KardexTableFooter = () => {
+const KardexTableFooter = ({ page, setPage }: Props) => {
+
+  console.log('page', page);
+  
+
   return (
     <div className='flex items-center justify-center px-4 py-3 sm:px-6 gap-10 mt-10'>
-        <ArrowBigLeft 
+        <button
           className='cursor-pointer text-gray-500 hover:text-gray-700'
-        />
+          onClick={() => setPage(prev => prev - 1)}
+          disabled={page === 1}
+        >
+          <ArrowBigLeft />
+        </button>
         <div>
-        {pages.map((page) => (
+        {pages.map((singlePage) => (
           <button
-            key={page.id}
-            className="mx-1 cursor-pointer rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            key={singlePage.id}
+            onClick={() => setPage(singlePage.id)}
+            className={`mx-1 cursor-pointer rounded-md border border-gray-300 ${singlePage.name === page.toString() ? 'bg-blue-600 text-slate-50 hover:bg-blue-500' : 'bg-white text-gray-700 hover:bg-gray-50'} px-4 py-2 text-sm font-medium  `}
           >
-            {page.name}
+            {singlePage.name}
           </button>
         ))}
         </div>
-        <ArrowBigRight 
+        <button
           className='cursor-pointer text-gray-500 hover:text-gray-700'
-        />
+          onClick={() => setPage(prev => prev + 1)}
+          disabled={page === pages.length}
+        >
+          <ArrowBigRight />
+        </button>
     </div>
   )
 }
