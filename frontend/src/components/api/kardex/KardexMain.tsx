@@ -1,8 +1,8 @@
 import useBodyRenderStore from "../../../hooks/store/bodyRenderStore"
 import KardexErrors from "./kardexErrors/KardexErrors"
+import KardexFilters from "./KardexFilters"
 import KardexHeader from "./KardexHeader"
-import KardexList from "./KardexList"
-
+import KardexTable from "./KardexTable"
 
 const KardexMain = () => {
 
@@ -14,7 +14,13 @@ const KardexMain = () => {
         ?
         <>
         <KardexHeader />
-        <KardexList />
+        {/* <KardexList /> */}
+        <KardexFilters 
+
+        />
+        <KardexTable 
+        
+        />
         </>
         :
         <KardexErrors />}

@@ -40,6 +40,9 @@ class KardexSerializer(serializers.ModelSerializer):
     """
     Serializer for the Kardex model.
     """
+    # class Meta:
+    #     model = models.Kardex
+    #     fields = '__all__'
 
     usuario = serializers.SerializerMethodField()
 

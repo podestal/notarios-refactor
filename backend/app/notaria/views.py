@@ -2,6 +2,9 @@ from rest_framework.viewsets import ModelViewSet
 from . import models
 from . import serializers
 from . import pagination
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
 
 '''
 ViewSets for the Notaria app.
@@ -41,8 +44,25 @@ class KardexViewSet(ModelViewSet):
                 idtipkar=idtipkar
             ).order_by('-fechaingreso')
             return kardex_qs
-        else:
-            return []
+        return None
+
+    @action(detail=False, methods=['get'])
+    def kardex_by_correlative(self, request):
+        """
+        Get the Kardex by id.
+        """
+        correlative = self.request.query_params.get('correlative')
+        if not correlative:
+            return Response(
+                {"error": "idkardex parameter is required."},
+                status=400
+            )
+        kardex_qs = models.Kardex.objects.filter(
+            kardex__startswith=correlative
+        )
+
+        serializer = serializers.KardexSerializer(kardex_qs, many=True)
+        return Response(serializer.data)
 
 
 class TipoKarViewSet(ModelViewSet):

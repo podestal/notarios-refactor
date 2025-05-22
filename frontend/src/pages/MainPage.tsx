@@ -15,7 +15,9 @@ const MainPage = () => {
     <Header 
       kardexTypes={kardexTypes}
     />
-    <KardexMain />
+    <KardexMain 
+
+    />
     </>
   )
 }
