@@ -21,8 +21,13 @@ const pages = [
 
 const KardexTableFooter = ({ page, setPage, kardexCount }: Props) => {
 
+  
+
   return (
     <>
+    {/* <p>{page}</p>
+    <p>{(kardexCount / 10)}</p>
+    <p>{Math.ceil(kardexCount / 10)}</p> */}
     {kardexCount && 
     <div className='flex items-center justify-center px-4 py-3 sm:px-6 gap-10 mt-10'>
         <button
