@@ -8,7 +8,7 @@ const KardexTableBody = ({ kardexList }: Props) => {
 
   return (
     <div>
-        {kardexList.map( singleKardex => (
+        {kardexList?.map( singleKardex => (
             <div 
                 key={singleKardex.idkardex}
                 className="grid grid-cols-13 text-[10px] text-center my-4 gap-2"

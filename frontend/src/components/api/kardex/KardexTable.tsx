@@ -4,17 +4,15 @@ import KardexTableFooter from "./KardexTableFooter"
 import KardexTableHeader from "./KardexTableHeader"
 import useBodyRenderStore from "../../../hooks/store/bodyRenderStore"
 import useGetKardexList from "../../../hooks/api/kardex/useGetKardexList"
-
-interface Props {
-  
-}
+import useCorrelativeStore from "../../../hooks/store/useCorrelativeStore"
 
 const KardexTable = () => {
 
   const [page, setPage] = useState(1)
   const bodyRender = useBodyRenderStore(s => s.bodyRender)
+  const correlative = useCorrelativeStore(s => s.correlative)
 
-  const { data: kardexPage, isLoading, isError, error, isSuccess } = useGetKardexList({ page: page.toString(), idtipkar:bodyRender })
+  const { data: kardexPage, isLoading, isError, error, isSuccess } = useGetKardexList({ page: page.toString(), idtipkar:bodyRender, correlative })
 
   if (isLoading) return <p className="text-sm animate-pulse text-center my-10">Un momento</p>
 
@@ -24,11 +22,12 @@ const KardexTable = () => {
 
   return (
     <div>
-
+        <>{console.log('correlative', correlative)}</>
+        <>{console.log('kardexPage', kardexPage)}</>
         <div className="px-2">
           <KardexTableHeader />
           <KardexTableBody 
-              kardexList={kardexPage.results}
+              kardexList={correlative ? kardexPage : kardexPage.results }
           />
           <KardexTableFooter 
               page={page}

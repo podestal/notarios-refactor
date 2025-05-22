@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import { Tipokardex } from "../../../services/api/tipokardexService"
 import useBodyRenderStore from "../../../hooks/store/bodyRenderStore"
+import useCorrelativeStore from "../../../hooks/store/useCorrelativeStore"
 
 const kardexTypes: Record<number, string> = {
     1: 'KAR',
@@ -13,9 +13,7 @@ const kardexTypes: Record<number, string> = {
 const KardexFilters = () => {
     const bodyRender = useBodyRenderStore(s => s.bodyRender)
     const [numberValue, setNumberValue] = useState(kardexTypes[bodyRender] || '')
-    console.log(bodyRender);
-    
-    console.log(kardexTypes);
+    const setCorrelative = useCorrelativeStore(s => s.setCorrelative)
 
     useEffect(() => {
         setNumberValue(kardexTypes[bodyRender] || '')
@@ -23,6 +21,7 @@ const KardexFilters = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
+        setCorrelative(numberValue)
         console.log('Submit', numberValue)
     }
         

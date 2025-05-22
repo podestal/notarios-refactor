@@ -1,3 +1,4 @@
+import { useState } from "react"
 import useBodyRenderStore from "../../../hooks/store/bodyRenderStore"
 import KardexErrors from "./kardexErrors/KardexErrors"
 import KardexFilters from "./KardexFilters"
@@ -13,14 +14,14 @@ const KardexMain = () => {
         {bodyRender !== 0 
         ?
         <>
-        <KardexHeader />
-        {/* <KardexList /> */}
-        <KardexFilters 
+          <KardexHeader />
+          {/* <KardexList /> */}
+          <KardexFilters 
 
-        />
-        <KardexTable 
-        
-        />
+          />
+          <KardexTable 
+
+          />
         </>
         :
         <KardexErrors />}

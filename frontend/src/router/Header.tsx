@@ -10,6 +10,7 @@ import { useState } from 'react'
 import Logout from '../components/auth/Logout'
 import { Tipokardex } from '../services/api/tipokardexService'
 import useBodyRenderStore from '../hooks/store/bodyRenderStore'
+import useCorrelativeStore from '../hooks/store/useCorrelativeStore'
 
 interface MenuOptions {
     name: string;
@@ -37,6 +38,9 @@ const Header = ({ kardexTypes }: Props) => {
     const [openSubDropdown, setOpenSubDropdown] = useState<number | null>(null);
 
     const setBodyRender = useBodyRenderStore((state) => state.setBodyRender)
+
+    // reinitilizes correlative
+    const setCorrelative = useCorrelativeStore(s => s.setCorrelative)
 
     const menuItems: MenuItem[] = [
       { label: "PROTOCOLARES", options: 
@@ -192,6 +196,7 @@ const Header = ({ kardexTypes }: Props) => {
                         onMouseEnter={() => option.subOptions && setOpenSubDropdown(idx)}
                         onMouseLeave={() => setOpenSubDropdown(null)}
                         onClick={() => {
+                          setCorrelative('')
                           option.docType && setBodyRender(option.docType)
                           console.log('option.docType', option)}}
                       >

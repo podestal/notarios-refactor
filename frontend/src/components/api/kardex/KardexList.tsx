@@ -19,10 +19,7 @@ const KardexList = () => {
   return (
     <div>
         <KardexTable 
-            kardexList={kardexPage.results}
-            page={page}
-            setPage={setPage}
-            kardexCount={kardexPage.count}
+correlative={''}
         />
     </div>
   )
