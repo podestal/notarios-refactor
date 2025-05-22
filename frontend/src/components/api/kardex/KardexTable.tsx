@@ -1,4 +1,5 @@
 import { Kardex } from "../../../services/api/kardexService"
+import KardexFilters from "./KardexFilters"
 import KardexTableBody from "./KardexTableBody"
 import KardexTableFooter from "./KardexTableFooter"
 import KardexTableHeader from "./KardexTableHeader"
@@ -14,15 +15,18 @@ const KardexTable = ({ kardexList, page, setPage, kardexCount }: Props) => {
 
   return (
     <div>
-        <KardexTableHeader />
-        <KardexTableBody 
-            kardexList={kardexList}
-        />
-        <KardexTableFooter 
-            page={page}
-            setPage={setPage}
-            kardexCount={kardexCount}
-        />
+        <KardexFilters />
+        <div className="px-2">
+          <KardexTableHeader />
+          <KardexTableBody 
+              kardexList={kardexList}
+          />
+          <KardexTableFooter 
+              page={page}
+              setPage={setPage}
+              kardexCount={kardexCount}
+          />
+        </div>
     </div>
   )
 }

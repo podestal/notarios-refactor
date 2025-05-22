@@ -10,7 +10,7 @@ const KardexList = () => {
 
     const { data: kardexPage, isLoading, isError, error, isSuccess } = useGetKardexList({ page: page.toString(), idtipkar:bodyRender })
 
-    if (isLoading) return <p>Un momento</p>
+    if (isLoading) return <p className="text-sm animate-pulse text-center my-10">Un momento</p>
   
     if (isError) return <p>Error: {error.message}</p>
   
