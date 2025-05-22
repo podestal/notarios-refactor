@@ -7,9 +7,10 @@ interface Props {
     kardexList: Kardex[]
     page: number
     setPage: React.Dispatch<React.SetStateAction<number>>
+    kardexCount: number
 }
 
-const KardexTable = ({ kardexList, page, setPage }: Props) => {
+const KardexTable = ({ kardexList, page, setPage, kardexCount }: Props) => {
 
   return (
     <div>
@@ -20,6 +21,7 @@ const KardexTable = ({ kardexList, page, setPage }: Props) => {
         <KardexTableFooter 
             page={page}
             setPage={setPage}
+            kardexCount={kardexCount}
         />
     </div>
   )

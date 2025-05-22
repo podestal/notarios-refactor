@@ -1,3 +1,4 @@
+import useBodyRenderStore from "../../../hooks/store/bodyRenderStore"
 import { Kardex } from "../../../services/api/kardexService"
 
 interface Props {
@@ -5,9 +6,15 @@ interface Props {
 }
 
 const KardexTableBody = ({ kardexList }: Props) => {
+
+    const bodyRender = useBodyRenderStore(s => s.bodyRender)
+
   return (
     <div>
-        <>{console.log('kardexList', kardexList)}</>
+        <>
+        {bodyRender !== 0 
+        ? 
+        <>
         {kardexList.map( singleKardex => (
             <div 
                 key={singleKardex.idkardex}
@@ -28,6 +35,10 @@ const KardexTableBody = ({ kardexList }: Props) => {
                 <p>Escaneo ...</p>
             </div>
         ))}
+        </> 
+        : 
+        <p>Hey</p>}
+        </>
     </div>
   )
 }

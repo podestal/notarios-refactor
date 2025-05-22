@@ -3,6 +3,7 @@ import { ArrowBigLeft, ArrowBigRight } from 'lucide-react'
 interface Props {
   page: number
   setPage: React.Dispatch<React.SetStateAction<number>>
+  kardexCount: number
 }
 
 const pages = [
@@ -18,12 +19,11 @@ const pages = [
   { id: 10, name: '10' },
 ]
 
-const KardexTableFooter = ({ page, setPage }: Props) => {
-
-  console.log('page', page);
-  
+const KardexTableFooter = ({ page, setPage, kardexCount }: Props) => {
 
   return (
+    <>
+    {kardexCount && 
     <div className='flex items-center justify-center px-4 py-3 sm:px-6 gap-10 mt-10'>
         <button
           className='cursor-pointer text-gray-500 hover:text-gray-700'
@@ -50,7 +50,8 @@ const KardexTableFooter = ({ page, setPage }: Props) => {
         >
           <ArrowBigRight />
         </button>
-    </div>
+    </div>}
+    </>
   )
 }
 

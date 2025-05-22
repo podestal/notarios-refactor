@@ -18,11 +18,11 @@ const KardexList = () => {
 
   return (
     <div>
-      <>{console.log('bodyRender from kardex list', bodyRender)}</>
         <KardexTable 
             kardexList={kardexPage.results}
             page={page}
             setPage={setPage}
+            kardexCount={kardexPage.count}
         />
     </div>
   )
