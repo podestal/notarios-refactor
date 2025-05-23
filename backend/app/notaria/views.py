@@ -44,21 +44,54 @@ class KardexViewSet(ModelViewSet):
                 idtipkar=idtipkar
             ).order_by('-fechaingreso')
 
-            user_ids = kardex_qs.values_list('idusuario', flat=True).distinct()
-            self.usuarios_map = {
-                u.idusuario: u
-                for u in models.Usuarios.objects.filter(idusuario__in=user_ids)
-            }
+            # user_ids = kardex_qs.values_list('idusuario', flat=True).distinct()
+            # self.usuarios_map = {
+            #     u.idusuario: u
+            #     for u in models.Usuarios.objects.filter(idusuario__in=user_ids)
+            # }
+
+            # kardex_ids = kardex_qs.values_list('kardex', flat=True).distinct()
+            # self.contratantes_map = {
+            #     c['kardex']: c['idcontratante']
+            #     for c in models.Contratantes.objects.filter(kardex__in=kardex_ids).values('idcontratante', 'kardex')
+            # }
 
             return kardex_qs
 
         return None
 
-    def get_serializer_context(self):
-        context = super().get_serializer_context()
-        context['usuarios_map'] = getattr(self, 'usuarios_map', {})
-        # context['contratantes_map'] = getattr(self, 'contratantes_map', {})
-        return context
+    # def get_serializer_context(self):
+    #     context = super().get_serializer_context()
+    #     context['usuarios_map'] = getattr(self, 'usuarios_map', {})
+    #     context['contratantes_map'] = getattr(self, 'contratantes_map', {})
+    #     return context
+    
+    def list(self, request, *args, **kwargs):
+        """
+        List all Kardex objects.
+        """
+        page_kardex = self.paginate_queryset(self.get_queryset())
+
+        user_ids = set(obj.idusuario for obj in page_kardex)
+        kardex_ids = set(obj.kardex for obj in page_kardex)
+
+        usuarios_map = {
+            u.idusuario: u
+            for u in models.Usuarios.objects.filter(idusuario__in=user_ids)
+        }
+
+        contratantes_map = {
+            c['kardex']: c['idcontratante']
+            for c in models.Contratantes.objects.filter(kardex__in=kardex_ids).values('idcontratante', 'kardex')
+        }
+
+        # Pass context manually to serializer if needed
+        serializer = self.get_serializer(page_kardex, many=True, context={
+            'usuarios_map': usuarios_map,
+            'contratantes_map': contratantes_map,
+        })
+
+        return self.get_paginated_response(serializer.data)
 
     @action(detail=False, methods=['get'])
     def kardex_by_correlative(self, request):

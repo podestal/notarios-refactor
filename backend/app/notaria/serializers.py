@@ -45,7 +45,7 @@ class KardexSerializer(serializers.ModelSerializer):
     #     fields = '__all__'
 
     usuario = serializers.SerializerMethodField()
-    # contratante = serializers.SerializerMethodField()
+    contratantes = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Kardex
@@ -64,18 +64,29 @@ class KardexSerializer(serializers.ModelSerializer):
             'idusuario',
             'usuario',
             'idtipkar',
-            # 'contratante',
+            'contratantes',
         ]
 
     def get_usuario(self, obj):
         usuarios_map = self.context.get('usuarios_map', {})
+        # print('usuarios_map', usuarios_map)
         usuario = usuarios_map.get(obj.idusuario)
         if usuario:
             return (
                 f"{usuario.prinom} {usuario.segnom} "
                 f"{usuario.apepat} {usuario.apemat}"
             )
-        return None
+        return ''
+    
+    def get_contratantes(self, obj):
+        contratantes_map = self.context.get('contratantes_map', {})
+        print('contratantes_map', contratantes_map)
+        contratante = contratantes_map.get(obj.kardex)
+        if contratante:
+            return (
+                f"{contratante}"
+            )
+        return ''
 
     # def get_usuario(self, obj):
     #     """
