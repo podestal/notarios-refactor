@@ -81,6 +81,15 @@ class KardexSerializer(serializers.ModelSerializer):
             return ''
 
 
+class ContratantesSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the Contratantes model.
+    """
+    class Meta:
+        model = models.Contratantes
+        fields = '__all__'
+
+
 # SELECT
     # kardex.kardex AS kardex,
     # tipokar.nomtipkar AS nom_tipkar,

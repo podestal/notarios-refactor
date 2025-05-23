@@ -1,10 +1,4 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
+
 from django.db import models
 
 
@@ -59,7 +53,9 @@ class Cliente2(models.Model):
     partidaconyuge = models.CharField(max_length=15, blank=True, null=True)
     separaciondebienes = models.CharField(max_length=1, blank=True, null=True)
     idsedeconyuge = models.CharField(max_length=11, blank=True, null=True)
-    profesion_plantilla = models.CharField(max_length=200, blank=True, null=True)
+    profesion_plantilla = models.CharField(
+        max_length=200, blank=True, null=True
+    )
     ubigeo_plantilla = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:

@@ -13,5 +13,7 @@ router.register('usuarios', views.UsuariosViewSet, basename='usuarios')
 router.register('permisos', views.PermisosUsuariosViewSet, basename='permisos')
 router.register('kardex', views.KardexViewSet, basename='kardex')
 router.register('tipokar', views.TipoKarViewSet, basename='tipokar')
+router.register('contratantes', views.ContratantesViewSet,
+                basename='contratantes')
 
 urlpatterns = router.urls

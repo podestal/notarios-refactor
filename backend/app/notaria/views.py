@@ -71,3 +71,12 @@ class TipoKarViewSet(ModelViewSet):
     """
     queryset = models.Tipokar.objects.all()
     serializer_class = serializers.TipoKarSerializer
+
+
+class ContratantesViewSet(ModelViewSet):
+    """
+    ViewSet for the Contratante model.
+    """
+    queryset = models.Contratantes.objects.all()
+    serializer_class = serializers.ContratantesSerializer
+    pagination_class = pagination.KardexPagination
