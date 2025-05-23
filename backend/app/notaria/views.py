@@ -80,3 +80,12 @@ class ContratantesViewSet(ModelViewSet):
     queryset = models.Contratantes.objects.all()
     serializer_class = serializers.ContratantesSerializer
     pagination_class = pagination.KardexPagination
+
+
+class Cliente2ViewSet(ModelViewSet):
+    """
+    ViewSet for the Cliente2 model.
+    """
+    queryset = models.Cliente2.objects.all()
+    serializer_class = serializers.Cliente2Serializer
+    pagination_class = pagination.KardexPagination

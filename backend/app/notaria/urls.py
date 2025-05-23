@@ -15,5 +15,6 @@ router.register('kardex', views.KardexViewSet, basename='kardex')
 router.register('tipokar', views.TipoKarViewSet, basename='tipokar')
 router.register('contratantes', views.ContratantesViewSet,
                 basename='contratantes')
+router.register('cliente2', views.Cliente2ViewSet, basename='cliente2')
 
 urlpatterns = router.urls

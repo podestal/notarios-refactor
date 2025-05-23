@@ -90,6 +90,15 @@ class ContratantesSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class Cliente2Serializer(serializers.ModelSerializer):
+    """
+    Serializer for the Cliente2 model.
+    """
+    class Meta:
+        model = models.Cliente2
+        fields = '__all__'
+
+
 # SELECT
     # kardex.kardex AS kardex,
     # tipokar.nomtipkar AS nom_tipkar,
