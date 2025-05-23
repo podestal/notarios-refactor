@@ -46,6 +46,7 @@ class KardexSerializer(serializers.ModelSerializer):
 
     usuario = serializers.SerializerMethodField()
     contratantes = serializers.SerializerMethodField()
+    cliente = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Kardex
@@ -65,11 +66,11 @@ class KardexSerializer(serializers.ModelSerializer):
             'usuario',
             'idtipkar',
             'contratantes',
+            'cliente',
         ]
 
     def get_usuario(self, obj):
         usuarios_map = self.context.get('usuarios_map', {})
-        # print('usuarios_map', usuarios_map)
         usuario = usuarios_map.get(obj.idusuario)
         if usuario:
             return (
@@ -77,10 +78,9 @@ class KardexSerializer(serializers.ModelSerializer):
                 f"{usuario.apepat} {usuario.apemat}"
             )
         return ''
-    
+
     def get_contratantes(self, obj):
         contratantes_map = self.context.get('contratantes_map', {})
-        print('contratantes_map', contratantes_map)
         contratante = contratantes_map.get(obj.kardex)
         if contratante:
             return (
@@ -88,36 +88,20 @@ class KardexSerializer(serializers.ModelSerializer):
             )
         return ''
 
-    # def get_usuario(self, obj):
-    #     """
-    #     Get the user associated with the Kardex.
-    #     """
+    def get_cliente(self, obj):
+        contratantes_map = self.context.get('contratantes_map', {})
+        clientes_map = self.context.get('clientes_map', {})
 
-    #     try:
-    #         usuario = models.Usuarios.objects.get(idusuario=obj.idusuario)
-    #         if usuario:
-    #             return (
-    #                 f'{usuario.prinom} {usuario.segnom} '
-    #                 f'{usuario.apepat} {usuario.apemat}'
-    #             )
-    #     except models.Usuarios.DoesNotExist:
-    #         return None
-        
-    # def get_contratante(self, obj):
-    #     """
-    #     Get the Contratante associated with the Kardex.
-    #     """
-    #     try:
-    #         contratante = models.Contratantes.objects.filter(
-    #             kardex=obj.kardex
-    #         )
-    #         if contratante:
-    #             print('Contratante id', contratante[0].idcontratante)
-    #             return 'contratante log'
-            
-    #     except models.Contratantes.DoesNotExist:
-    #         return None
-        # cliente2.idcontratante > contatantes.kardex
+        idcontratante = contratantes_map.get(obj.kardex)
+        cliente = clientes_map.get(idcontratante)
+
+        if cliente:
+            return (
+                f"{cliente['prinom']} {cliente['segnom']}"
+                f" {cliente['apepat']} {cliente['apemat']}"
+            )
+
+        return ''
 
 
 class ContratantesSerializer(serializers.ModelSerializer):
