@@ -1,4 +1,5 @@
 import { Kardex } from "../../../services/api/kardexService"
+import getTitleCase from "../../../utils/getTitleCase"
 
 interface Props {
     kardexList: Kardex[]
@@ -16,7 +17,7 @@ const KardexTableBody = ({ kardexList }: Props) => {
                 <h2 className="text-blue-600 hover:text-blue-400 cursor-pointer">{singleKardex.kardex}</h2>
                 <p>{singleKardex.fechaingreso}</p>
                 <p>{singleKardex.contrato}</p>
-                <p>Contratantes ...</p>
+                <p>{getTitleCase(singleKardex.cliente)}</p>
                 <p>{singleKardex.fechaescritura}</p>
                 <p>{singleKardex.numinstrmento}</p>
                 <p>{singleKardex.numminuta}</p>
@@ -24,7 +25,7 @@ const KardexTableBody = ({ kardexList }: Props) => {
                 <p>{singleKardex.foliofin}</p>
                 <p>registro</p>
                 <p>{singleKardex.txa_minuta}</p>
-                <p>{singleKardex.usuario ? singleKardex.usuario.toLocaleLowerCase(): 'no user'}</p>
+                <p>{getTitleCase(singleKardex.usuario)}</p>
                 <p>Escaneo ...</p>
             </div>
         ))}

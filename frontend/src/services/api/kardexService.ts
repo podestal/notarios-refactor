@@ -15,6 +15,7 @@ export interface Kardex {
     idusuario: number;
     usuario: string;
     idtipkar: number;
+    cliente: string;
 }
 
 export interface KardexPage {
