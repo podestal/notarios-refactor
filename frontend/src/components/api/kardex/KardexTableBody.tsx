@@ -24,7 +24,7 @@ const KardexTableBody = ({ kardexList }: Props) => {
                 <p>{singleKardex.foliofin}</p>
                 <p>registro</p>
                 <p>{singleKardex.txa_minuta}</p>
-                <p>{singleKardex.usuario.toLocaleLowerCase()}</p>
+                <p>{singleKardex.usuario ? singleKardex.usuario.toLocaleLowerCase(): 'no user'}</p>
                 <p>Escaneo ...</p>
             </div>
         ))}

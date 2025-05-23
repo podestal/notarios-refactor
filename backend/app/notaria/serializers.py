@@ -45,6 +45,7 @@ class KardexSerializer(serializers.ModelSerializer):
     #     fields = '__all__'
 
     usuario = serializers.SerializerMethodField()
+    # contratante = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Kardex
@@ -63,22 +64,49 @@ class KardexSerializer(serializers.ModelSerializer):
             'idusuario',
             'usuario',
             'idtipkar',
+            # 'contratante',
         ]
 
     def get_usuario(self, obj):
-        """
-        Get the user associated with the Kardex.
-        """
+        usuarios_map = self.context.get('usuarios_map', {})
+        usuario = usuarios_map.get(obj.idusuario)
+        if usuario:
+            return (
+                f"{usuario.prinom} {usuario.segnom} "
+                f"{usuario.apepat} {usuario.apemat}"
+            )
+        return None
 
-        try:
-            usuario = models.Usuarios.objects.get(idusuario=obj.idusuario)
-            if usuario:
-                return (
-                    f'{usuario.prinom} {usuario.segnom} '
-                    f'{usuario.apepat} {usuario.apemat}'
-                )
-        except models.Usuarios.DoesNotExist:
-            return ''
+    # def get_usuario(self, obj):
+    #     """
+    #     Get the user associated with the Kardex.
+    #     """
+
+    #     try:
+    #         usuario = models.Usuarios.objects.get(idusuario=obj.idusuario)
+    #         if usuario:
+    #             return (
+    #                 f'{usuario.prinom} {usuario.segnom} '
+    #                 f'{usuario.apepat} {usuario.apemat}'
+    #             )
+    #     except models.Usuarios.DoesNotExist:
+    #         return None
+        
+    # def get_contratante(self, obj):
+    #     """
+    #     Get the Contratante associated with the Kardex.
+    #     """
+    #     try:
+    #         contratante = models.Contratantes.objects.filter(
+    #             kardex=obj.kardex
+    #         )
+    #         if contratante:
+    #             print('Contratante id', contratante[0].idcontratante)
+    #             return 'contratante log'
+            
+    #     except models.Contratantes.DoesNotExist:
+    #         return None
+        # cliente2.idcontratante > contatantes.kardex
 
 
 class ContratantesSerializer(serializers.ModelSerializer):

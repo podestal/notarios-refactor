@@ -43,8 +43,22 @@ class KardexViewSet(ModelViewSet):
             kardex_qs = models.Kardex.objects.filter(
                 idtipkar=idtipkar
             ).order_by('-fechaingreso')
+
+            user_ids = kardex_qs.values_list('idusuario', flat=True).distinct()
+            self.usuarios_map = {
+                u.idusuario: u
+                for u in models.Usuarios.objects.filter(idusuario__in=user_ids)
+            }
+
             return kardex_qs
+
         return None
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['usuarios_map'] = getattr(self, 'usuarios_map', {})
+        # context['contratantes_map'] = getattr(self, 'contratantes_map', {})
+        return context
 
     @action(detail=False, methods=['get'])
     def kardex_by_correlative(self, request):
