@@ -97,22 +97,70 @@ class KardexViewSet(ModelViewSet):
 
         return self.get_paginated_response(serializer.data)
 
+    # @action(detail=False, methods=['get'])
+    # def kardex_by_correlative(self, request):
+    #     """
+    #     Get the Kardex by id.
+    #     """
+    #     correlative = self.request.query_params.get('correlative')
+    #     if not correlative:
+    #         return Response(
+    #             {"error": "idkardex parameter is required."},
+    #             status=400
+    #         )
+    #     kardex_qs = models.Kardex.objects.filter(
+    #         kardex__startswith=correlative
+    #     )
+
+    #     serializer = serializers.KardexSerializer(kardex_qs, many=True)
+    #     return Response(serializer.data)
+
     @action(detail=False, methods=['get'])
     def kardex_by_correlative(self, request):
         """
-        Get the Kardex by id.
+        Get Kardex records by correlative prefix (kardex__startswith).
         """
-        correlative = self.request.query_params.get('correlative')
+        correlative = request.query_params.get('correlative')
         if not correlative:
             return Response(
-                {"error": "idkardex parameter is required."},
+                {"error": "correlative parameter is required."},
                 status=400
             )
+
+        # Get the filtered queryset
         kardex_qs = models.Kardex.objects.filter(
             kardex__startswith=correlative
         )
 
-        serializer = serializers.KardexSerializer(kardex_qs, many=True)
+        # Prepare optimized data maps (same as in list)
+        user_ids = set(obj.idusuario for obj in kardex_qs)
+        kardex_ids = set(obj.kardex for obj in kardex_qs)
+
+        usuarios_map = {
+            u.idusuario: u
+            for u in models.Usuarios.objects.filter(idusuario__in=user_ids)
+        }
+
+        contratantes = models.Contratantes.objects.filter(
+            kardex__in=kardex_ids
+        ).values('idcontratante', 'kardex')
+
+        contratantes_map = {c['kardex']: c['idcontratante'] for c in contratantes}
+        contratante_ids = set(c['idcontratante'] for c in contratantes)
+
+        clientes_map = {
+            c['idcontratante']: c
+            for c in models.Cliente2.objects.filter(idcontratante__in=contratante_ids)
+            .values('idcontratante', 'idcliente', 'prinom', 'segnom', 'apepat', 'apemat', 'nombre', 'direccion', 'numdoc')
+        }
+
+        # Pass context manually
+        serializer = serializers.KardexSerializer(kardex_qs, many=True, context={
+            'usuarios_map': usuarios_map,
+            'contratantes_map': contratantes_map,
+            'clientes_map': clientes_map,
+        })
+
         return Response(serializer.data)
 
 
