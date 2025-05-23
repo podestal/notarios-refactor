@@ -16,6 +16,7 @@
     "@tanstack/react-query": "^5.71.1",
     "@tanstack/react-query-devtools": "^5.71.1",
     "axios": "^1.9.0",
+    "framer-motion": "^12.12.1",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.511.0",
     "moment": "^2.30.1",

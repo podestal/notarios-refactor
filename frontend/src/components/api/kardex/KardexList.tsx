@@ -18,8 +18,9 @@ const KardexList = () => {
 
   return (
     <div>
+        <>{console.log('kardexPage', kardexPage)}</>
+        <>{console.log("setpage", setPage)}</>
         <KardexTable 
-correlative={''}
         />
     </div>
   )

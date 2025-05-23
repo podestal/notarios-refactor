@@ -1,15 +1,15 @@
-import { Kardex } from "../../../services/api/kardexService"
+import { Kardex, KardexPage } from "../../../services/api/kardexService"
 import getTitleCase from "../../../utils/getTitleCase"
 
 interface Props {
-    kardexList: Kardex[]
+    kardexList: KardexPage | Kardex[]
 }
 
 const KardexTableBody = ({ kardexList }: Props) => {
 
   return (
     <div>
-        {kardexList?.map( singleKardex => (
+        {Array.isArray(kardexList) && kardexList.map(singleKardex => (
             <div 
                 key={singleKardex.idkardex}
                 className="grid grid-cols-13 text-[10px] text-center my-4 gap-2"
@@ -23,7 +23,7 @@ const KardexTableBody = ({ kardexList }: Props) => {
                 <p>{singleKardex.numminuta}</p>
                 <p>{singleKardex.folioini}</p>
                 <p>{singleKardex.foliofin}</p>
-                <p>registro</p>
+                <p>{singleKardex.numinstrmento}</p>
                 <p>{singleKardex.txa_minuta}</p>
                 <p>{getTitleCase(singleKardex.usuario)}</p>
                 <p>Escaneo ...</p>

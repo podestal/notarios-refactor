@@ -1,4 +1,3 @@
-import { useState } from "react"
 import useBodyRenderStore from "../../../hooks/store/bodyRenderStore"
 import KardexErrors from "./kardexErrors/KardexErrors"
 import KardexFilters from "./KardexFilters"
