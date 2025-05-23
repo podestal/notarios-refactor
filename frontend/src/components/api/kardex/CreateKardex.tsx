@@ -1,5 +1,6 @@
 import { useState } from "react"
 import TopModal from "../../ui/TopModal"
+import KardexForm from "./KardexForm"
 
 
 const CreateKardex = () => {
@@ -19,7 +20,7 @@ const CreateKardex = () => {
         isOpen={open}
         onClose={() => setOpen(false)}
     >
-        <h2 className="text-2xl text-black">dfafasdf</h2>
+        <KardexForm />
     </TopModal>
     </>
   )

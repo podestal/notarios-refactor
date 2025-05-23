@@ -11,6 +11,7 @@ import Logout from '../components/auth/Logout'
 import { Tipokardex } from '../services/api/tipokardexService'
 import useBodyRenderStore from '../hooks/store/bodyRenderStore'
 import useCorrelativeStore from '../hooks/store/useCorrelativeStore'
+import getTitleCase from '../utils/getTitleCase'
 
 interface MenuOptions {
     name: string;
@@ -201,7 +202,7 @@ const Header = ({ kardexTypes }: Props) => {
                           console.log('option.docType', option)}}
                       >
                         <li className="px-4 py-2 hover:bg-sky-500 hover:text-slate-50 cursor-pointer w-full border-b border-neutral-600 flex justify-between">
-                          {option.name}
+                          {getTitleCase(option.name)}
                           {option.subOptions && <span>▶</span>}
                         </li>
 

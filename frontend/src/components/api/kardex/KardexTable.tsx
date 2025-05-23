@@ -22,8 +22,6 @@ const KardexTable = () => {
 
   return (
     <div>
-        <>{console.log('correlative', correlative)}</>
-        <>{console.log('kardexPage', kardexPage)}</>
         <div className="px-2">
           <KardexTableHeader />
           <KardexTableBody 
