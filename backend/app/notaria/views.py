@@ -198,6 +198,58 @@ class KardexViewSet(ModelViewSet):
 
         return self.get_paginated_response(serializer.data)
 
+    @action(detail=False, methods=['get'])
+    def by_document(self, request):
+        """
+        Get Kardex records by name.
+        """
+        document = request.query_params.get('document')
+        if not document:
+            return Response(
+                {"error": "name parameter is required."},
+                status=400
+            )
+        
+        cliente = models.Cliente2.objects.filter(
+            numdoc__icontains=document
+        ).values('idcontratante', 'idcliente', 'prinom', 'segnom', 'apepat', 'apemat', 'nombre', 'direccion', 'numdoc')
+        clientes_map = {c['idcontratante']: c for c in cliente}
+
+        if not cliente.exists():
+            return Response(
+                {"error": "No records found for the given name."},
+                status=404
+            )
+        
+        contratantes_ids = [c["idcontratante"] for c in cliente]
+        contratantes = models.Contratantes.objects.filter(
+            idcontratante__in=contratantes_ids
+        ).values('idcontratante', 'kardex')
+
+        contratantes_map = {c['kardex']: c['idcontratante'] for c in contratantes}
+
+        kardex_ids = [c['kardex'] for c in contratantes]
+        kardex_qs = models.Kardex.objects.filter(
+            kardex__in=kardex_ids,
+        ).order_by('-fechaingreso')
+
+        paginator = self.paginator
+        paginated_kardex = paginator.paginate_queryset(kardex_qs, request)
+
+        user_ids = set(obj.idusuario for obj in kardex_qs)
+
+        usuarios_map = {
+            u.idusuario: u
+            for u in models.Usuarios.objects.filter(idusuario__in=user_ids)
+        }
+
+        serializer = serializers.KardexSerializer(paginated_kardex, many=True, context={
+            'usuarios_map': usuarios_map,
+            'contratantes_map': contratantes_map,
+            'clientes_map': clientes_map,
+        })
+
+        return self.get_paginated_response(serializer.data)
 
 class TipoKarViewSet(ModelViewSet):
     """
