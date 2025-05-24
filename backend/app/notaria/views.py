@@ -49,12 +49,6 @@ class KardexViewSet(ModelViewSet):
 
         return None
 
-    # def get_serializer_context(self):
-    #     context = super().get_serializer_context()
-    #     context['usuarios_map'] = getattr(self, 'usuarios_map', {})
-    #     context['contratantes_map'] = getattr(self, 'contratantes_map', {})
-    #     return context
-
     def list(self, request, *args, **kwargs):
         """
         List all Kardex objects.
@@ -97,24 +91,6 @@ class KardexViewSet(ModelViewSet):
         })
 
         return self.get_paginated_response(serializer.data)
-
-    # @action(detail=False, methods=['get'])
-    # def kardex_by_correlative(self, request):
-    #     """
-    #     Get the Kardex by id.
-    #     """
-    #     correlative = self.request.query_params.get('correlative')
-    #     if not correlative:
-    #         return Response(
-    #             {"error": "idkardex parameter is required."},
-    #             status=400
-    #         )
-    #     kardex_qs = models.Kardex.objects.filter(
-    #         kardex__startswith=correlative
-    #     )
-
-    #     serializer = serializers.KardexSerializer(kardex_qs, many=True)
-    #     return Response(serializer.data)
 
     @action(detail=False, methods=['get'])
     def kardex_by_correlative(self, request):
@@ -192,15 +168,20 @@ class KardexViewSet(ModelViewSet):
                 status=404
             )
         
+        contratantes_ids = [c["idcontratante"] for c in cliente]
         contratantes = models.Contratantes.objects.filter(
-            idcontratante__in=cliente.values_list('idcontratante', flat=True)
+            idcontratante__in=contratantes_ids
         ).values('idcontratante', 'kardex')
 
         contratantes_map = {c['kardex']: c['idcontratante'] for c in contratantes}
 
+        kardex_ids = [c['kardex'] for c in contratantes]
         kardex_qs = models.Kardex.objects.filter(
-            kardex__in=contratantes.values_list('kardex', flat=True),
+            kardex__in=kardex_ids,
         ).order_by('-fechaingreso')
+
+        paginator = self.paginator
+        paginated_kardex = paginator.paginate_queryset(kardex_qs, request)
 
         user_ids = set(obj.idusuario for obj in kardex_qs)
 
@@ -209,46 +190,13 @@ class KardexViewSet(ModelViewSet):
             for u in models.Usuarios.objects.filter(idusuario__in=user_ids)
         }
 
-        serializer = serializers.KardexSerializer(kardex_qs, many=True, context={
+        serializer = serializers.KardexSerializer(paginated_kardex, many=True, context={
             'usuarios_map': usuarios_map,
             'contratantes_map': contratantes_map,
             'clientes_map': clientes_map,
         })
 
-        # # Filter by name
-        # kardex_qs = models.Kardex.objects.filter(nombre__icontains=name)
-
-        # # Prepare optimized data maps (same as in list)
-        # user_ids = set(obj.idusuario for obj in kardex_qs)
-        # kardex_ids = set(obj.kardex for obj in kardex_qs)
-
-        # usuarios_map = {
-        #     u.idusuario: u
-        #     for u in models.Usuarios.objects.filter(idusuario__in=user_ids)
-        # }
-
-        # contratantes = models.Contratantes.objects.filter(
-        #     kardex__in=kardex_ids
-        # ).values('idcontratante', 'kardex')
-
-        # contratantes_map = {c['kardex']: c['idcontratante'] for c in contratantes}
-        # contratante_ids = set(c['idcontratante'] for c in contratantes)
-
-        # clientes_map = {
-        #     c['idcontratante']: c
-        #     for c in models.Cliente2.objects.filter(idcontratante__in=contratante_ids)
-        #     .values('idcontratante', 'idcliente', 'prinom', 'segnom', 'apepat', 'apemat', 'nombre', 'direccion', 'numdoc')
-        # }
-
-        # # Pass context manually
-        # serializer = serializers.KardexSerializer(kardex_qs, many=True, context={
-        #     'usuarios_map': usuarios_map,
-        #     'contratantes_map': contratantes_map,
-        #     'clientes_map': clientes_map,
-        # })
-
-        # return Response(serializer.data)
-        return Response(serializer.data, status=200)
+        return self.get_paginated_response(serializer.data)
 
 
 class TipoKarViewSet(ModelViewSet):
