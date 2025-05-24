@@ -12,7 +12,7 @@ const kardexTypes: Record<number, string> = {
 
 const KardexFilters = () => {
     const bodyRender = useBodyRenderStore(s => s.bodyRender)
-    const [numberValue, setNumberValue] = useState(kardexTypes[bodyRender] || '')
+    const [numberValue, setNumberValue] = useState(kardexTypes[bodyRender])
     const setCorrelative = useCorrelativeStore(s => s.setCorrelative)
 
     useEffect(() => {

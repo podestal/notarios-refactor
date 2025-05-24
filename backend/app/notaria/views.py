@@ -4,6 +4,7 @@ from . import serializers
 from . import pagination
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.db.models import Q
 
 
 '''
@@ -162,6 +163,92 @@ class KardexViewSet(ModelViewSet):
         })
 
         return Response(serializer.data)
+
+    @action(detail=False, methods=['get'])
+    def by_name(self, request):
+        """
+        Get Kardex records by name.
+        """
+        name = request.query_params.get('name')
+        if not name:
+            return Response(
+                {"error": "name parameter is required."},
+                status=400
+            )
+        
+        cliente = models.Cliente2.objects.filter(
+            Q(nombre__icontains=name) |
+            Q(apepat__icontains=name) |
+            Q(apemat__icontains=name) |
+            Q(prinom__icontains=name) |
+            Q(segnom__icontains=name)
+        ).values('idcontratante', 'idcliente', 'prinom', 'segnom', 'apepat', 'apemat', 'nombre', 'direccion', 'numdoc')
+
+        clientes_map = {c['idcontratante']: c for c in cliente}
+
+        if not cliente.exists():
+            return Response(
+                {"error": "No records found for the given name."},
+                status=404
+            )
+        
+        contratantes = models.Contratantes.objects.filter(
+            idcontratante__in=cliente.values_list('idcontratante', flat=True)
+        ).values('idcontratante', 'kardex')
+
+        contratantes_map = {c['kardex']: c['idcontratante'] for c in contratantes}
+
+        kardex_qs = models.Kardex.objects.filter(
+            kardex__in=contratantes.values_list('kardex', flat=True),
+        ).order_by('-fechaingreso')
+
+        user_ids = set(obj.idusuario for obj in kardex_qs)
+
+        usuarios_map = {
+            u.idusuario: u
+            for u in models.Usuarios.objects.filter(idusuario__in=user_ids)
+        }
+
+        serializer = serializers.KardexSerializer(kardex_qs, many=True, context={
+            'usuarios_map': usuarios_map,
+            'contratantes_map': contratantes_map,
+            'clientes_map': clientes_map,
+        })
+
+        # # Filter by name
+        # kardex_qs = models.Kardex.objects.filter(nombre__icontains=name)
+
+        # # Prepare optimized data maps (same as in list)
+        # user_ids = set(obj.idusuario for obj in kardex_qs)
+        # kardex_ids = set(obj.kardex for obj in kardex_qs)
+
+        # usuarios_map = {
+        #     u.idusuario: u
+        #     for u in models.Usuarios.objects.filter(idusuario__in=user_ids)
+        # }
+
+        # contratantes = models.Contratantes.objects.filter(
+        #     kardex__in=kardex_ids
+        # ).values('idcontratante', 'kardex')
+
+        # contratantes_map = {c['kardex']: c['idcontratante'] for c in contratantes}
+        # contratante_ids = set(c['idcontratante'] for c in contratantes)
+
+        # clientes_map = {
+        #     c['idcontratante']: c
+        #     for c in models.Cliente2.objects.filter(idcontratante__in=contratante_ids)
+        #     .values('idcontratante', 'idcliente', 'prinom', 'segnom', 'apepat', 'apemat', 'nombre', 'direccion', 'numdoc')
+        # }
+
+        # # Pass context manually
+        # serializer = serializers.KardexSerializer(kardex_qs, many=True, context={
+        #     'usuarios_map': usuarios_map,
+        #     'contratantes_map': contratantes_map,
+        #     'clientes_map': clientes_map,
+        # })
+
+        # return Response(serializer.data)
+        return Response(serializer.data, status=200)
 
 
 class TipoKarViewSet(ModelViewSet):
