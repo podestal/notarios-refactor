@@ -1,22 +1,23 @@
 import { create } from "zustand"
 
+
 interface FilterInterface {
     type: 'K' | 'N' | 'D' | 'E' | ''
     value: string
 }
 
 interface FilterState {
-    filter: FilterInterface
-    setFilter: (filter: FilterInterface) => void
+    kardexFilter: FilterInterface
+    setKardexFilter: (filter: FilterInterface) => void
 }
 
 const useKardexFiltersStore = create<FilterState>(set => ({
-    filter: {
+    kardexFilter: {
         type: '',
         value: ''
     },
-    setFilter: (filter) => {
-        set({ filter })
+    setKardexFilter: (kardexFilter) => {
+        set({ kardexFilter })
     }
 }))
 

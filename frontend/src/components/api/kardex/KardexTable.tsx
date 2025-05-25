@@ -5,14 +5,16 @@ import KardexTableHeader from "./KardexTableHeader"
 import useBodyRenderStore from "../../../hooks/store/bodyRenderStore"
 import useGetKardexList from "../../../hooks/api/kardex/useGetKardexList"
 import useCorrelativeStore from "../../../hooks/store/useCorrelativeStore"
+import useKardexFiltersStore from "../../../hooks/store/useKardexFiltersStore"
 
 const KardexTable = () => {
 
   const [page, setPage] = useState(1)
   const bodyRender = useBodyRenderStore(s => s.bodyRender)
   const correlative = useCorrelativeStore(s => s.correlative)
+  const kardexFilter = useKardexFiltersStore(s => s.kardexFilter)
 
-  const { data: kardexPage, isLoading, isError, error, isSuccess } = useGetKardexList({ page: page.toString(), idtipkar:bodyRender, correlative })
+  const { data: kardexPage, isLoading, isError, error, isSuccess } = useGetKardexList({ page: page.toString(), idtipkar:bodyRender, correlative, kardexFilter })
 
   if (isLoading) return <p className="text-sm animate-pulse text-center my-10">Un momento</p>
 

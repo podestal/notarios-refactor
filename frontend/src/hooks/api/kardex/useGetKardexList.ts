@@ -1,19 +1,21 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query"
 import getKardexService, { KardexPage } from "../../../services/api/kardexService"
+import { FilterInterface } from "../../store/useKardexFiltersStore"
 
 interface Props {
     page: string
     idtipkar: number
     correlative?: string
+    kardexFilter?: FilterInterface
 }
 
-const useGetKardexList = ({ page, idtipkar, correlative }: Props): UseQueryResult<KardexPage, Error> => {
+const useGetKardexList = ({ page, idtipkar, correlative, kardexFilter }: Props): UseQueryResult<KardexPage, Error> => {
     let kardexService = getKardexService({ })
     if (correlative) {
         kardexService = getKardexService({ by_correlative: true })
     }
 
-    console.log('correlative in hook', correlative);
+    console.log('kardexFilter in hook', kardexFilter);
     
 
     let params = {}
