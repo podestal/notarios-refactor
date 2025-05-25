@@ -25,9 +25,10 @@ const KardexTable = () => {
   return (
     <div>
         <div className="px-2">
+          <>{console.log('kardexPage', kardexPage)}</>
           <KardexTableHeader />
           <KardexTableBody 
-              kardexList={correlative ? kardexPage : kardexPage.results }
+              kardexList={kardexPage.results }
           />
           <KardexTableFooter 
               page={page}

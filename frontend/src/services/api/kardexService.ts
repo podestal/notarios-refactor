@@ -27,16 +27,23 @@ export interface KardexPage {
 
 interface Props {
     id?: number
-    by_correlative?: true
+    byCorrelative?: boolean
+    byDocument?: boolean
+    byName?: boolean
+
 }
 
-const getKardexService =({ id, by_correlative }: Props) => {
+const getKardexService =({ id, byCorrelative, byDocument, byName }: Props) => {
 
     let url = '/kardex/'
     if (id) {
         url += `${id}/`
-    } else if (by_correlative) {
+    } else if (byCorrelative) {
         url += 'kardex_by_correlative/'
+    } else if (byDocument) {
+        url += 'by_document/'
+    } else if (byName) {
+        url += 'by_name/'
     }
 
     return new APIClient<KardexPage, KardexPage>(url)

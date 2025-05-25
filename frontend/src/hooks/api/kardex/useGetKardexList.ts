@@ -9,27 +9,56 @@ interface Props {
     kardexFilter?: FilterInterface
 }
 
-const useGetKardexList = ({ page, idtipkar, correlative, kardexFilter }: Props): UseQueryResult<KardexPage, Error> => {
+const useGetKardexList = ({ page, idtipkar, kardexFilter }: Props): UseQueryResult<KardexPage, Error> => {
     let kardexService = getKardexService({ })
-    if (correlative) {
-        kardexService = getKardexService({ by_correlative: true })
+    console.log('kardexFilter in hook', kardexFilter);
+    if (kardexFilter && kardexFilter.type) {
+        if (kardexFilter.type === 'K') {
+            kardexService = getKardexService({ byCorrelative: true })
+        }
+        else if (kardexFilter.type === 'N') {
+            kardexService = getKardexService({ byName: true })
+        }
+        else if (kardexFilter.type === 'D') {
+            kardexService = getKardexService({ byDocument: true })
+        }
     }
 
-    console.log('kardexFilter in hook', kardexFilter);
+
     
 
     let params = {}
 
-    if ((correlative ?? '').length > 3) {
-        params = { correlative }
+    if (kardexFilter && kardexFilter.type) {
+        if (kardexFilter.type === 'K' && (kardexFilter.value ?? '').length > 3) {
+            params = { correlative: kardexFilter.value }
+        }
+        else if (kardexFilter.type === 'N') {
+            params = { name: kardexFilter.value }
+        }
+        else if (kardexFilter.type === 'D') {
+            params = { document: kardexFilter.value }
+        }
     } else if (page && idtipkar) {
         params = { page, idtipkar: idtipkar.toString() }
     }
 
+    console.log('params', params)
+    
+
+    // if ((correlative ?? '').length > 3) {
+    //     params = { correlative }
+    // } else if (page && idtipkar) {
+    //     params = { page, idtipkar: idtipkar.toString() }
+    // }
+
     let queryKey = ['kardex list', page, idtipkar]
-    if (correlative) {
-        queryKey = ['kardex list', correlative]
-    }
+    if (kardexFilter && kardexFilter.type) {
+        queryKey = ['kardex list', kardexFilter.type, kardexFilter.value]
+    } 
+    // if (correlative) {
+    //     queryKey = ['kardex list', correlative]
+    // }
 
     console.log('queryKey', queryKey);
     
@@ -38,7 +67,6 @@ const useGetKardexList = ({ page, idtipkar, correlative, kardexFilter }: Props):
         queryKey,
         queryFn: () => kardexService.get('', params),
         refetchOnWindowFocus: false,
-        retry: false,
     })
 }
 
