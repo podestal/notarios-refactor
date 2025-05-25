@@ -24,20 +24,17 @@ const useGetKardexList = ({ page, idtipkar, kardexFilter }: Props): UseQueryResu
         }
     }
 
-
-    
-
     let params = {}
 
     if (kardexFilter && kardexFilter.type) {
         if (kardexFilter.type === 'K' && (kardexFilter.value ?? '').length > 3) {
-            params = { correlative: kardexFilter.value }
+            params = { correlative: kardexFilter.value, idtipkar: idtipkar.toString() }
         }
         else if (kardexFilter.type === 'N') {
-            params = { name: kardexFilter.value }
+            params = { name: kardexFilter.value, idtipkar: idtipkar.toString() }
         }
         else if (kardexFilter.type === 'D') {
-            params = { document: kardexFilter.value }
+            params = { document: kardexFilter.value, idtipkar: idtipkar.toString() }
         }
     } else if (page && idtipkar) {
         params = { page, idtipkar: idtipkar.toString() }
@@ -46,19 +43,10 @@ const useGetKardexList = ({ page, idtipkar, kardexFilter }: Props): UseQueryResu
     console.log('params', params)
     
 
-    // if ((correlative ?? '').length > 3) {
-    //     params = { correlative }
-    // } else if (page && idtipkar) {
-    //     params = { page, idtipkar: idtipkar.toString() }
-    // }
-
     let queryKey = ['kardex list', page, idtipkar]
     if (kardexFilter && kardexFilter.type) {
-        queryKey = ['kardex list', kardexFilter.type, kardexFilter.value]
+        queryKey = ['kardex list', kardexFilter.type, kardexFilter.value, idtipkar]
     } 
-    // if (correlative) {
-    //     queryKey = ['kardex list', correlative]
-    // }
 
     console.log('queryKey', queryKey);
     
