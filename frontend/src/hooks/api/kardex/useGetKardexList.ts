@@ -28,33 +28,30 @@ const useGetKardexList = ({ page, idtipkar, kardexFilter }: Props): UseQueryResu
 
     if (kardexFilter && kardexFilter.type) {
         if (kardexFilter.type === 'K' && (kardexFilter.value ?? '').length > 3) {
-            params = { correlative: kardexFilter.value, idtipkar: idtipkar.toString() }
+            params = { correlative: kardexFilter.value, idtipkar: idtipkar.toString(), page }
         }
         else if (kardexFilter.type === 'N') {
-            params = { name: kardexFilter.value, idtipkar: idtipkar.toString() }
+            params = { name: kardexFilter.value.toLocaleUpperCase(), idtipkar: idtipkar.toString() }
         }
         else if (kardexFilter.type === 'D') {
-            params = { document: kardexFilter.value, idtipkar: idtipkar.toString() }
+            params = { document: kardexFilter.value, idtipkar: idtipkar.toString(), page }
         }
     } else if (page && idtipkar) {
         params = { page, idtipkar: idtipkar.toString() }
     }
 
-    console.log('params', params)
-    
 
     let queryKey = ['kardex list', page, idtipkar]
     if (kardexFilter && kardexFilter.type) {
-        queryKey = ['kardex list', kardexFilter.type, kardexFilter.value, idtipkar]
+        queryKey = ['kardex list', kardexFilter.type, kardexFilter.value, idtipkar, page]
     } 
-
-    console.log('queryKey', queryKey);
     
 
     return useQuery({
         queryKey,
         queryFn: () => kardexService.get('', params),
         refetchOnWindowFocus: false,
+        retry: false,
     })
 }
 

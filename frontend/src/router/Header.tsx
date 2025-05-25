@@ -12,6 +12,7 @@ import { Tipokardex } from '../services/api/tipokardexService'
 import useBodyRenderStore from '../hooks/store/bodyRenderStore'
 import useCorrelativeStore from '../hooks/store/useCorrelativeStore'
 import getTitleCase from '../utils/getTitleCase'
+import useKardexFiltersStore from '../hooks/store/useKardexFiltersStore'
 
 interface MenuOptions {
     name: string;
@@ -42,6 +43,8 @@ const Header = ({ kardexTypes }: Props) => {
 
     // reinitilizes correlative
     const setCorrelative = useCorrelativeStore(s => s.setCorrelative)
+
+    const setKardexFilter = useKardexFiltersStore(s => s.setKardexFilter)
 
     const menuItems: MenuItem[] = [
       { label: "PROTOCOLARES", options: 
@@ -199,6 +202,10 @@ const Header = ({ kardexTypes }: Props) => {
                         onClick={() => {
                           setCorrelative('')
                           option.docType && setBodyRender(option.docType)
+                          setKardexFilter({
+                            type: '',
+                            value: ''
+                        })
                           console.log('option.docType', option)}}
                       >
                         <li className="px-4 py-2 hover:bg-sky-500 hover:text-slate-50 cursor-pointer w-full border-b border-neutral-600 flex justify-between">

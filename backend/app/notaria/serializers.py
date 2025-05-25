@@ -97,8 +97,7 @@ class KardexSerializer(serializers.ModelSerializer):
 
         if cliente:
             return (
-                f"{cliente['prinom']} {cliente['segnom']}"
-                f" {cliente['apepat']} {cliente['apemat']}"
+                f"{cliente['nombre']}"
             )
 
         return ''

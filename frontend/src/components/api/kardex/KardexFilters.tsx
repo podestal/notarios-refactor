@@ -18,12 +18,21 @@ const KardexFilters = () => {
     const [filterName, setFilterName] = useState('')
     const [filterType, setFilterType] = useState<'K' | 'N' | 'D' | 'E' | ''>('')
     const setCorrelative = useCorrelativeStore(s => s.setCorrelative)
-    const setKardexFilter = useKardexFiltersStore(s => s.setKardexFilter)
+    const {setKardexFilter, kardexFilter} = useKardexFiltersStore()
     
 
     useEffect(() => {
         setNumberValue(kardexTypes[bodyRender] || '')
     }, [bodyRender])
+
+    useEffect(() => {
+        if (kardexFilter.type === '' && kardexFilter.value === '') {
+            setNumberValue(kardexTypes[bodyRender])
+            setFilterDocument('')
+            setFilterName('')
+            setFilterType('')
+        }
+    }, [kardexFilter])
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()

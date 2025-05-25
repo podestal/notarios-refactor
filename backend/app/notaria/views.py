@@ -78,8 +78,7 @@ class KardexViewSet(ModelViewSet):
             for c in models.Cliente2.objects.filter(
                 idcontratante__in=contratante_ids
             ).values(
-                'idcontratante', 'prinom', 'segnom',
-                'apepat', 'apemat', 'numdoc'
+                'idcontratante', 'nombre', 'numdoc'
             )
         }
 
@@ -99,7 +98,7 @@ class KardexViewSet(ModelViewSet):
         """
         correlative = request.query_params.get('correlative')
         idtipkar = self.request.query_params.get('idtipkar')
-        
+
         if not correlative:
             return Response(
                 {"error": "correlative parameter is required."},
@@ -111,6 +110,9 @@ class KardexViewSet(ModelViewSet):
             kardex__startswith=correlative,
             idtipkar=idtipkar
         )
+
+        if not kardex_qs.exists():
+            return Response({}, status=200)
 
         # Prepare optimized data maps (same as in list)
         user_ids = set(obj.idusuario for obj in kardex_qs)
@@ -131,7 +133,7 @@ class KardexViewSet(ModelViewSet):
         clientes_map = {
             c['idcontratante']: c
             for c in models.Cliente2.objects.filter(idcontratante__in=contratante_ids)
-            .values('idcontratante', 'idcliente', 'prinom', 'segnom', 'apepat', 'apemat', 'nombre', 'direccion', 'numdoc')
+            .values('idcontratante', 'idcliente', 'nombre')
         }
 
         # Pass context manually
@@ -155,15 +157,16 @@ class KardexViewSet(ModelViewSet):
                 {"error": "name parameter is required."},
                 status=400
             )
-        
+        print('name:', name)
         cliente = models.Cliente2.objects.filter(
             Q(nombre__icontains=name) |
             Q(apepat__icontains=name) |
             Q(apemat__icontains=name) |
             Q(prinom__icontains=name) |
             Q(segnom__icontains=name)
-        ).values('idcontratante', 'idcliente', 'prinom', 'segnom', 'apepat', 'apemat', 'nombre', 'direccion', 'numdoc')
+        ).values('idcontratante', 'idcliente', 'nombre', 'numdoc')
 
+        print('cliente:', cliente)
         clientes_map = {c['idcontratante']: c for c in cliente}
 
         if not cliente.exists():
@@ -184,6 +187,9 @@ class KardexViewSet(ModelViewSet):
             kardex__in=kardex_ids,
             idtipkar=idtipkar
         ).order_by('-fechaingreso')
+
+        if not kardex_qs.exists():
+            return Response({}, status=200)
 
         paginator = self.paginator
         paginated_kardex = paginator.paginate_queryset(kardex_qs, request)
@@ -218,7 +224,7 @@ class KardexViewSet(ModelViewSet):
         
         cliente = models.Cliente2.objects.filter(
             numdoc__icontains=document
-        ).values('idcontratante', 'idcliente', 'prinom', 'segnom', 'apepat', 'apemat', 'nombre', 'direccion', 'numdoc')
+        ).values('idcontratante', 'idcliente', 'nombre')
         clientes_map = {c['idcontratante']: c for c in cliente}
 
         if not cliente.exists():
@@ -239,6 +245,9 @@ class KardexViewSet(ModelViewSet):
             kardex__in=kardex_ids,
             idtipkar=idtipkar
         ).order_by('-fechaingreso')
+
+        if not kardex_qs.exists():
+            return Response({}, status=200)
 
         paginator = self.paginator
         paginated_kardex = paginator.paginate_queryset(kardex_qs, request)
