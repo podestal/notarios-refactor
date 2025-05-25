@@ -98,6 +98,8 @@ class KardexViewSet(ModelViewSet):
         Get Kardex records by correlative prefix (kardex__startswith).
         """
         correlative = request.query_params.get('correlative')
+        idtipkar = self.request.query_params.get('idtipkar')
+        
         if not correlative:
             return Response(
                 {"error": "correlative parameter is required."},
@@ -106,7 +108,8 @@ class KardexViewSet(ModelViewSet):
 
         # Get the filtered queryset
         kardex_qs = models.Kardex.objects.filter(
-            kardex__startswith=correlative
+            kardex__startswith=correlative,
+            idtipkar=idtipkar
         )
 
         # Prepare optimized data maps (same as in list)
@@ -146,6 +149,7 @@ class KardexViewSet(ModelViewSet):
         Get Kardex records by name.
         """
         name = request.query_params.get('name')
+        idtipkar = self.request.query_params.get('idtipkar')
         if not name:
             return Response(
                 {"error": "name parameter is required."},
@@ -178,6 +182,7 @@ class KardexViewSet(ModelViewSet):
         kardex_ids = [c['kardex'] for c in contratantes]
         kardex_qs = models.Kardex.objects.filter(
             kardex__in=kardex_ids,
+            idtipkar=idtipkar
         ).order_by('-fechaingreso')
 
         paginator = self.paginator
@@ -204,6 +209,7 @@ class KardexViewSet(ModelViewSet):
         Get Kardex records by name.
         """
         document = request.query_params.get('document')
+        idtipkar = self.request.query_params.get('idtipkar')
         if not document:
             return Response(
                 {"error": "name parameter is required."},
@@ -231,6 +237,7 @@ class KardexViewSet(ModelViewSet):
         kardex_ids = [c['kardex'] for c in contratantes]
         kardex_qs = models.Kardex.objects.filter(
             kardex__in=kardex_ids,
+            idtipkar=idtipkar
         ).order_by('-fechaingreso')
 
         paginator = self.paginator
@@ -250,6 +257,7 @@ class KardexViewSet(ModelViewSet):
         })
 
         return self.get_paginated_response(serializer.data)
+
 
 class TipoKarViewSet(ModelViewSet):
     """
